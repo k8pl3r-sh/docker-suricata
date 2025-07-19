@@ -3,8 +3,12 @@ FROM alpine
 ## Install Suricata as describe here https://redmine.openinfosecfoundation.org/projects/suricata/wiki/Distributions_Containing_Suricata Repository : https://pkgs.alpinelinux.org/package/edge/community/x86/suricata
 RUN apk add suricata --no-cache
 # Install Suricata-update utility https://github.com/OISF/suricata-update
-RUN apk add python py-pip
-RUN pip install suricata-update
+#RUN apk add python py-pip
+RUN apk add --no-cache python3 py3-pip
+#RUN pip install suricata-update
+RUN python3 -m venv /venv \
+    && . /venv/bin/activate \
+    && pip install --no-cache-dir suricata-update
 COPY suricata-update.sh /etc/suricata/suricata-update.sh
 # COPY file needed for the Suricata efficiency
 COPY suricata-update-cron /etc/crontabs/suricata-update-cron
